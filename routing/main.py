@@ -5,15 +5,15 @@ import shutil
 from fastapi import FastAPI, File, Form, UploadFile
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
-import jinja2
-from models import User
-from utils import validate_phone, validate_email
+
+from routing.models import User
+from routing.utils import validate_phone, validate_email
 import json
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-app.mount("./static", StaticFiles(directory="static"))
+app.mount("/static", StaticFiles(directory="static"))
 
 templates = Jinja2Templates(directory="templates")
 IMAGE_FILE_PATH = './images/'
@@ -84,7 +84,3 @@ async def submit_form(
     return templates.TemplateResponse("success.html", {"request": request})
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, port=8000)
