@@ -1,0 +1,31 @@
+<!-- templates/form.html -->
+
+<html>
+<head>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+  <h1>Submit Information</h1>
+
+  <form action="/submitform" method="post" enctype="multipart/form-data">
+    <label>Name:</label>
+    <input type="text" name="name">
+
+    <label>Location:</label>
+    <input type="text" name="location">
+
+    <label>Phone:</label>
+    <input type="text" name="phone">
+
+    <label>Email:</label>
+    <input type="email" name="email">
+
+    <label>Photo:</label>
+    <input type="file" name="photo">
+
+    <input type="submit" value="Submit">
+  </form>
+
+</body>
+</html>
