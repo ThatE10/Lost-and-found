@@ -70,6 +70,7 @@ Create a new [+Code] block and paste this code into it
 !pip install  typing-extensions 
 !pip install  starlette
 !pip install  python-multipart
+
 from io import BytesIO
 import os
 #from typing_extensions import Buffer 
@@ -97,6 +98,10 @@ def predict(image: bytes = File(...)):
       out = model.generate(**inputs, num_beams=3)
       return {'description': processor.decode(out[0], skip_special_tokens=True)}
 
+@app.get("/")
+def predict(image: bytes = File(...)):
+      return 'Hello World!'
+
 import nest_asyncio
 from pyngrok import ngrok
 import uvicorn
@@ -109,8 +114,26 @@ nest_asyncio.apply()
 uvicorn.run(app, port=5000)
 ```
 
-When you run this block it will output a Public URL similar to '[https://5919-34-125-248-184.ngrok-free.app](https://5919-34-125-248-184.ngrok-free.app)' this will be your endpoint for predictions
+When you run this block it will output a Public URL similar to '[https://5919-34-125-248-184.ngrok-free.app/](https://5919-34-125-248-184.ngrok-free.app)' this will be your endpoint for predictions
 
 *Next we will create an application that is able to access this endpoint on your local machine*
 
 Create a new project and create a folder called ML_endpoint then create a file called predict.py within that folder
+
+```python
+def classify(local_image_url) -> Response:  
+    img_bytes = Image.open(local_image_url).convert('RGB').tobytes()  
+  
+    response = requests.post(CONFIG_classification_API,  
+                             data=img_bytes,  
+                             headers={'Content-Type': 'image/jpg'})  
+    return response
+```
+
+Now within your Local PyCharm IDE you can query the Google Colab notebook to generate an image caption for you!  
+
+To call your endpoint simply call:
+```python
+print(classify('image.jpg').text)
+```
+
