@@ -12,6 +12,7 @@ app = FastAPI()
 class ml_core():
 
     def __init__(self, run_local=CONFIG_run_local, classification_API=CONFIG_classification_API):
+        self.run_local = run_local
         if run_local:
             from io import BytesIO
             from fastapi import FastAPI, File
@@ -48,5 +49,6 @@ class ml_core():
         return response
 
     def start_server(host='127.0.0.1', port=5000):
-        import uvicorn
-        uvicorn.run(app, port=5000)
+        if CONFIG_run_local:
+            import uvicorn
+            uvicorn.run(app, port=5000)
